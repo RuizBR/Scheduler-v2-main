@@ -41,18 +41,16 @@ class generateSched:
         
         sid=1
         for sc in setsSubjectLab:
-                sc['scID'] = sid
-                sc = createSched(sc,rndRoomLab,rndRoomLec)
-                isrand = not validateData(setsSubjectLab, sc)
+                cs = createSched(sc,rndRoomLab,rndRoomLec,1)
+                isrand = not validateData(setsSubjectLab, cs)
+                cnt = 1
                 if isrand == False:
-                    print(sc['code'])
-                #     while True:
-                #         sc = createSched(sc,rndRoomLab,rndRoomLec)
-                #         isrand = not validateData(setsSubjectLab, sc)
-                #         if isrand == True:
-                #             break
-                # if isrand:
-                sid=sid+1
+                    while True:
+                        cnt = cnt + 1
+                        sc = createSched(sc,rndRoomLab,rndRoomLec,cnt)
+                        isrand = not validateData(setsSubjectLab, sc)
+                        if isrand == True:
+                            break
 
         print(setsSubjectLab)
         # print(rm1)

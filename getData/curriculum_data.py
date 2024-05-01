@@ -38,13 +38,14 @@ def format_data(fetched_data):
                 'instructor' :None,
                 'day1':None,
                 'day2':None,
+                'days':None,
                 'timeA1':None,
                 'timeA2':0,
                 'timeB1':0,
                 'timeB2':0,
+                'times':None,
                 'room1':None,
-                'room2':None,
-                'scID':None
+                'room2':None
             }
 
             program_info['curriculum'].append(course_info)
