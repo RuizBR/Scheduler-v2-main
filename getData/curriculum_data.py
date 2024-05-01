@@ -39,13 +39,13 @@ def format_data(fetched_data):
                 'day1':None,
                 'day2':None,
                 'days':None,
-                'timeA1':None,
+                'timeA1':0,
                 'timeA2':0,
                 'timeB1':0,
                 'timeB2':0,
-                'times':None,
                 'room1':None,
-                'room2':None
+                'room2':None,
+                'blocks':None,
             }
 
             program_info['curriculum'].append(course_info)
@@ -55,7 +55,7 @@ def format_data(fetched_data):
     return formatted_data
 
 def fetch_curriculum_data():
-    fetch_url = 'http://192.168.196.129:3000/Curriculums/get'
+    fetch_url = 'http://192.168.1.10:3000/Curriculums/get'
     fetching_instance = Fetching(fetch_url)
     fetched_data = fetching_instance.perform_get_request()
 

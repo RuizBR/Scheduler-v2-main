@@ -11,22 +11,36 @@ class generateSched:
         self.sem = sem
 
         setsSubject = [course_code for curriculum in self.curriculum for course_code in curriculum['curriculum']]
-        setsInstructor = self.instructor
+        setsPrograms = [program for program in self.program]
+        setsTeacher = [teacher for teacher in self.instructor]
 
-        # for subs in setsSubject:
-        #     for sp in setsInstructor:
+        for s in setsSubject:
+            for t in setsTeacher:
+                for sp in t['specialized']:
+                    if sp['code']==s['code']:
+                        if s['instructor']==None:
+                            s['instructor']=t['fname']+' '+t['sname']
 
-        #         if subs['code']==ints['code']:
-                    
-        #             subs['instructor']=ints['fname']+' '+ints['sname']
-
+        setsProgramWithBlock = [p for p in setsPrograms if p['block'] != None]
+        
+        if len(setsProgramWithBlock)>0:
+            png = [None]
+            pAdd = None
+            for pb in setsProgramWithBlock:
+                if pAdd==None:
+                    pAdd = pb['program']
+                    png.append(pb['program'])
+                if pAdd != pb['program']:
+                    png.append(pb['program'])
+                    pAdd = pb['program']
+            png.pop(0)
 
         setsSubjectLab = [Subject for Subject in setsSubject if Subject['type']=='Laboratory'] 
         setsSubjectLec = [Subject for Subject in setsSubject if Subject['type']=='Lecture']
         setsRoomLab = [room for room in self.room if room['type']=='Laboratory'] 
         setsRoomLec = [room for room in self.room if room['type']=='Lecture'] 
-
         
+
         rndRoomLab = [None] * len(setsRoomLab)
         i=0
         for r in setsRoomLab:
@@ -38,21 +52,22 @@ class generateSched:
         for r in setsRoomLec:
             rndRoomLec[i] = r['name']
             i=i+1
+
+        random.shuffle(setsSubject)
         
-        sid=1
-        for sc in setsSubjectLab:
+        for sc in setsSubject:
                 cs = createSched(sc,rndRoomLab,rndRoomLec,1)
-                isrand = not validateData(setsSubjectLab, cs)
+                isrand = validateData(setsSubject, cs)
                 cnt = 1
                 if isrand == False:
                     while True:
                         cnt = cnt + 1
                         sc = createSched(sc,rndRoomLab,rndRoomLec,cnt)
-                        isrand = not validateData(setsSubjectLab, sc)
+                        isrand = validateData(setsSubjectLab, sc)
                         if isrand == True:
                             break
 
-        print(setsSubjectLab)
+        print(setsSubject)
         # print(rm1)
          
         

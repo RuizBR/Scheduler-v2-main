@@ -1,12 +1,19 @@
 import random
 def createSched(sc, rndRoomLab, rndRoomLec, cnt):
 
+    if sc['type']=='Laboratory':
+        tstart=3
+        tend=2
+    if sc['type']=='Lecture':
+        tstart=2
+        tend=1
+
     tm = [7,8,9,10,11,12,13,14,15,16]
     t1 = random.choice(tm)
     sc['timeA1']=t1
-    sc['timeA2']=t1 + 3
+    sc['timeA2']=t1 + tstart
     sc['timeB1']=t1
-    sc['timeB2']=t1 + 2
+    sc['timeB2']=t1 + tend
 
     dy = ['M','T','W','TH','F']
     dn = [0,1,2,3,4]
