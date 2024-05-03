@@ -10,30 +10,106 @@ class generateSched:
         self.room = room
         self.sem = sem
 
-        setsSubject = [course_code for curriculum in self.curriculum for course_code in curriculum['curriculum']]
-        setsPrograms = [program for program in self.program]
-        setsTeacher = [teacher for teacher in self.instructor]
+        setsCurriculum = [c for c in self.curriculum]
+        print('curriculum ',len(setsCurriculum))
 
-        for s in setsSubject:
+        setsCurriculumAndBlock =[(p['block'], c) for c in self.curriculum for p in self.program if p['program']==c['program'] and p['major']==c['major'] and p['year']==c['year']]
+
+        print('with blocks ',len(setsCurriculumAndBlock))
+
+        cnt = 0
+
+        for cb in setsCurriculumAndBlock:
+            bl = cb[0]
+
+            curr = cb[1]['curriculum']
+            cnt = cnt + len(curr)
+            for cc in curr:
+                cc['blocks']=bl
+
+        print('total curriculum = ',cnt)
+
+        setsSubject = [course_code for curriculum in self.curriculum for course_code in curriculum['curriculum']]
+
+        print('total subject = ', len(setsSubject))
+
+        setsSched = setsSubject
+
+        #/sets blocks
+        for s in setsSched:
+            if int(s['blocks'])>=1:
+                cnt = int(s['blocks'])
+
+                if cnt>=1:
+                    new = [self.curriculum] * 1
+                    new = s
+                    new['blocks']=0                    
+                    new['blockname']='A'
+                    new['code'] = s['codeOrig'] + ' (A)'
+                    setsSubject.append(new)
+                
+                if cnt>=2:
+                    new = [self.curriculum] * 1
+                    new = s
+                    new['blocks']=0                    
+                    new['blockname']='B'
+                    new['code'] = s['codeOrig'] + ' (B)'
+                    setsSubject.append(new)
+                
+                if cnt>=3:
+                    new = [self.curriculum] * 1
+                    new = s
+                    new['blocks']=0                    
+                    new['blockname']='C'
+                    new['code'] = s['codeOrig'] + ' (C)'
+                    setsSubject.append(new)
+
+                if cnt>=4:
+                    new = [self.curriculum] * 1
+                    new = s
+                    new['blocks']=0                    
+                    new['blockname']='D'
+                    new['code'] = s['codeOrig'] + ' (D)'
+                    setsSubject.append(new)                
+                
+                if cnt>=5:
+                    new = [self.curriculum] * 1
+                    new = s
+                    new['blocks']=0                    
+                    new['blockname']='E'
+                    new['code'] = s['codeOrig'] + ' (E)'
+                    setsSubject.append(new)
+
+        #/sets blocks
+
+        setsSched = setsSubject
+
+        print('No. of slots = ',len(setsSched))
+
+        #/ Total Hours
+        hrs = 0
+        for sc in setsSched:
+            hrs = hrs + int(sc['units'])
+
+        print('total hours = ',hrs)
+
+        setsPrograms = [program for program in self.program]
+        print('Programs = ',len(setsPrograms))
+        setsTeacher = [teacher for teacher in self.instructor]
+        print('Teacher = ',len(setsTeacher))
+
+        for s in setsSched:
             for t in setsTeacher:
                 for sp in t['specialized']:
-                    if sp['code']==s['code']:
+                    if sp['code']==s['codeOrig']:
                         if s['instructor']==None:
-                            s['instructor']=t['fname']+' '+t['sname']
+                            s['instructor']=t['fname']+' '+t['sname']                
 
+        setsProgramWithBlock = [c for c in self.curriculum for p in self.program if p['program']==c['program'] and p['major']==c['major']]
         setsProgramWithBlock = [p for p in setsPrograms if p['block'] != None]
-        
-        if len(setsProgramWithBlock)>0:
-            png = [None]
-            pAdd = None
-            for pb in setsProgramWithBlock:
-                if pAdd==None:
-                    pAdd = pb['program']
-                    png.append(pb['program'])
-                if pAdd != pb['program']:
-                    png.append(pb['program'])
-                    pAdd = pb['program']
-            png.pop(0)
+
+        # print(setsCurriculumAndBlock)
+        # print(len(setsCurriculumAndBlock))        
 
         setsSubjectLab = [Subject for Subject in setsSubject if Subject['type']=='Laboratory'] 
         setsSubjectLec = [Subject for Subject in setsSubject if Subject['type']=='Lecture']
@@ -53,9 +129,12 @@ class generateSched:
             rndRoomLec[i] = r['name']
             i=i+1
 
-        random.shuffle(setsSubject)
+        print('Subject: Lab =',len(setsSubjectLab),'Subject: Lec =',len(setsSubjectLec))
+        print('Room: Lab =',len(setsRoomLab),'Room: Lec =',len(setsRoomLec))
+
+        random.shuffle(setsSched)
         
-        for sc in setsSubject:
+        for sc in setsSched:
                 cs = createSched(sc,rndRoomLab,rndRoomLec,1)
                 isrand = validateData(setsSubject, cs)
                 cnt = 1
@@ -67,8 +146,11 @@ class generateSched:
                         if isrand == True:
                             break
 
-        print(setsSubject)
-        # print(rm1)
+        # for sc in setsSched:
+        #     if sc['blockname']=='B':
+        #         print(sc)
+
+        # print(setsSubject)
          
         
 

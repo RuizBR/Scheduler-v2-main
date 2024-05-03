@@ -35,6 +35,7 @@ def format_data(fetched_data):
                 'description': course.get('description', ''),
                 'units': course.get('units', ''),
                 'type': course.get('type', ''),
+                'codeOrig': course.get('code', ''),
                 'instructor' :None,
                 'day1':None,
                 'day2':None,
@@ -46,6 +47,7 @@ def format_data(fetched_data):
                 'room1':None,
                 'room2':None,
                 'blocks':None,
+                'blockname' :None
             }
 
             program_info['curriculum'].append(course_info)

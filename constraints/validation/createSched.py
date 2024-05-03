@@ -19,6 +19,12 @@ def createSched(sc, rndRoomLab, rndRoomLec, cnt):
     dn = [0,1,2,3,4]
     d1 = random.choice(dn)
 
+    sc['day1']=dy[d1]
+    d2 = d1 + 2
+    if d2 >4: 
+        d2 = 0
+    sc['day2'] = dy[d2]
+
     if sc['type']=='Laboratory':
         rm1 = random.choice(rndRoomLab)
         sc['room1'] = rm1
@@ -36,11 +42,5 @@ def createSched(sc, rndRoomLab, rndRoomLec, cnt):
         else:
             rm2 = random.choice(rndRoomLec)
             sc['room2'] = rm2
-            
-    sc['day1']=dy[d1]
-    d2 = d1 + 2
-    if d2 >4: 
-        d2 = 0
-    sc['day2'] = dy[d2]
 
     return sc
