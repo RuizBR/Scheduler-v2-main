@@ -31,6 +31,7 @@ def format_data(fetched_data):
 
         for course in curriculum.get('curriculum', []):
             course_info = {
+                'myID': course.get('_id',''),
                 'code': course.get('code', ''),
                 'description': course.get('description', ''),
                 'units': course.get('units', ''),
@@ -39,15 +40,23 @@ def format_data(fetched_data):
                 'instructor' :None,
                 'day1':None,
                 'day2':None,
-                'days':None,
+                'day3':None,
+                'timeA1':0,
                 'timeA1':0,
                 'timeA2':0,
                 'timeB1':0,
                 'timeB2':0,
+                'timeC1':0,
+                'timeC2':0,
                 'room1':None,
                 'room2':None,
-                'blocks':None,
-                'blockname' :None
+                'room3':None,
+                'blocks':0,
+                'blockname' :None,
+                'isAlreadySch1':False,
+                'isAlreadySch2':False,
+                'isAlreadySch3':False,
+                'isLabSched':False
             }
 
             program_info['curriculum'].append(course_info)
