@@ -31,6 +31,9 @@ def format_data(fetched_data):
 
         for course in curriculum.get('curriculum', []):
             course_info = {
+                'currID': curriculum.get('_id', ''),
+                'prog': curriculum.get('program', ''),
+                'maj' : curriculum.get('major', ''),
                 'myID': course.get('_id',''),
                 'code': course.get('code', ''),
                 'description': course.get('description', ''),
@@ -42,7 +45,6 @@ def format_data(fetched_data):
                 'day2':None,
                 'day3':None,
                 'timeA1':0,
-                'timeA1':0,
                 'timeA2':0,
                 'timeB1':0,
                 'timeB2':0,
@@ -51,11 +53,12 @@ def format_data(fetched_data):
                 'room1':None,
                 'room2':None,
                 'room3':None,
-                'blocks':0,
+                'blocks':0,                
                 'blockname' :None,
                 'isAlreadySch1':False,
                 'isAlreadySch2':False,
                 'isAlreadySch3':False,
+                'isOnline' :False,
                 'isLabSched':False
             }
 
